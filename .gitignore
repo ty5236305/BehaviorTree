@@ -2,3 +2,8 @@ Library/
 Logs/
 Packages/
 Temp/
+obj/
+
+.vs/
+*.sln
+*.csproj
