@@ -8,7 +8,7 @@ public class MoveAction : BTAction
     private string _destinationDataName;
 
     private Vector3 _destination;
-    private float _tolerance = 0.01f;
+    private float _tolerance = 0.00001f;
     private float _speed;
 
     private Transform _trans;

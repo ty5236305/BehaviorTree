@@ -48,7 +48,7 @@ public class HeroAI : BTTree
 
         //定义go动作
         BTParallel go = new BTParallel(BTParallel.ParallelOpt.Or);
-        FindTargetAction findTargetDestination = new FindTargetAction(GOBLIN_OBJECT_NAME, DESTINATION_DATA_KEY, fightDistance * 0.9f);
+        FindTargetAction findTargetDestination = new FindTargetAction(GOBLIN_OBJECT_NAME, DESTINATION_DATA_KEY, fightDistance);
         go.AddChild(findTargetDestination);
         go.AddChild(run);
 
