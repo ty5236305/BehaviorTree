@@ -47,10 +47,7 @@ namespace BT
 
         public override void Clear()
         {
-            if (_runningChildIndex != -1)
-            {
-                _children[_runningChildIndex].Clear();
-            }
+            base.Clear();
             _runningChildIndex = -1;
         }
     }

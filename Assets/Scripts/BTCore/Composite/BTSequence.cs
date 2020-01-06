@@ -7,7 +7,6 @@ namespace BT
     
         private int _runningChildIndex = -1;
 
-
         public override BTResult Tick()
         {
             if (_children == null || _children.Count <= 0)
@@ -50,10 +49,7 @@ namespace BT
 
         public override void Clear()
         {
-            if (_runningChildIndex != -1)
-            {
-                _children[_runningChildIndex].Clear();
-            }
+            base.Clear();
             _runningChildIndex = -1;
         }
     }

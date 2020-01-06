@@ -54,14 +54,6 @@ namespace BT
             return BTResult.Running;
         }
 
-        public override void Clear()
-        {
-            foreach (BTNode child in _children)
-            {
-                child.Clear();
-            }
-        }
-
     }
 
 }
