@@ -5,14 +5,14 @@ using BT;
 public class HeroAI : BTTree
 {
 
-    private static readonly string DESTINATION_DATA_KEY = "Destination";
+    private static readonly string DATA_KEY_DESTINATION = "Destination";
 
-    private static readonly string ORC_OBJECT_NAME = "Orc";
-    private static readonly string GOBLIN_OBJECT_NAME = "Goblin";
+    private static readonly string OBJECT_NAME_ORC = "Orc";
+    private static readonly string OBJECT_NAME_GOBLIN = "Goblin";
 
-    private static readonly string RUN_ANIMATION = "Run";
-    private static readonly string FIGHT_ANIMATION = "Fight";
-    private static readonly string IDLE_ANIMATION = "Idle";
+    private static readonly string ANIMATION_RUN = "Run";
+    private static readonly string ANIMATION_FIGHT = "Fight";
+    private static readonly string ANIMATION_IDLE = "Idle";
 
     public float speed;
     public float sightForOrc;
@@ -32,13 +32,13 @@ public class HeroAI : BTTree
         
         //跑步动作，该动作在逃跑结点和战斗结点都有使用，跑步动作由位移动作和跑步动画动作两个部分组成，所以这里使用并行结点
         BTParallel run = new BTParallel(BTParallel.ParallelOpt.Or);
-        run.AddChild(new MoveAction(DESTINATION_DATA_KEY, speed));
-        run.AddChild(new PlayAnimationAction(RUN_ANIMATION));
+        run.AddChild(new MoveAction(DATA_KEY_DESTINATION, speed));
+        run.AddChild(new PlayAnimationAction(ANIMATION_RUN));
 
 
         //逃跑结点，这里使用并行节点，逃跑过程中需要不断查找逃跑目标点
         BTParallel escape = new BTParallel(BTParallel.ParallelOpt.Or);
-        FindEscapeAction findEscapeDestination = new FindEscapeAction(ORC_OBJECT_NAME, DESTINATION_DATA_KEY, sightForOrc);
+        FindEscapeAction findEscapeDestination = new FindEscapeAction(OBJECT_NAME_ORC, DATA_KEY_DESTINATION, sightForOrc);
         escape.AddChild(findEscapeDestination);
         escape.AddChild(run);
 
@@ -48,13 +48,13 @@ public class HeroAI : BTTree
 
         //定义go动作
         BTParallel go = new BTParallel(BTParallel.ParallelOpt.Or);
-        FindTargetAction findTargetDestination = new FindTargetAction(GOBLIN_OBJECT_NAME, DESTINATION_DATA_KEY, fightDistance);
+        FindTargetAction findTargetDestination = new FindTargetAction(OBJECT_NAME_GOBLIN, DATA_KEY_DESTINATION, fightDistance);
         go.AddChild(findTargetDestination);
         go.AddChild(run);
 
         //定义attack动作
-        CheckInSightCondition checkGoblinInFightDistance = new CheckInSightCondition(fightDistance, GOBLIN_OBJECT_NAME);
-        BTConditionDecorator attack = new BTConditionDecorator(new PlayAnimationAction(FIGHT_ANIMATION), checkGoblinInFightDistance);
+        CheckInSightCondition checkGoblinInFightDistance = new CheckInSightCondition(fightDistance, OBJECT_NAME_GOBLIN);
+        BTConditionDecorator attack = new BTConditionDecorator(new PlayAnimationAction(ANIMATION_FIGHT), checkGoblinInFightDistance);
         //PlayAnimationAction attack = new PlayAnimationAction(FIGHT_ANIMATION);
 
         //将go动作和attack动作添加到fight结点
@@ -64,14 +64,14 @@ public class HeroAI : BTTree
 
 
         //根结点添加逃跑结点，附带前置条件
-        CheckInSightCondition checkOrcInSight = new CheckInSightCondition(sightForOrc, ORC_OBJECT_NAME);
+        CheckInSightCondition checkOrcInSight = new CheckInSightCondition(sightForOrc, OBJECT_NAME_ORC);
         selector.AddChild(new BTConditionDecorator(escape, checkOrcInSight));
 
         //根结点添加战斗结点，附带前置条件
-        CheckInSightCondition checkGoblinInSight = new CheckInSightCondition(sightForGoblin, GOBLIN_OBJECT_NAME);
+        CheckInSightCondition checkGoblinInSight = new CheckInSightCondition(sightForGoblin, OBJECT_NAME_GOBLIN);
         selector.AddChild(new BTConditionDecorator(fight, checkGoblinInSight));
 
         //根结点添加闲置结点
-        selector.AddChild(new PlayAnimationAction(IDLE_ANIMATION));
+        selector.AddChild(new PlayAnimationAction(ANIMATION_IDLE));
     }
 }
