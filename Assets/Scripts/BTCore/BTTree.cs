@@ -34,14 +34,6 @@ public abstract class BTTree : MonoBehaviour
         }
     }
 
-    void OnDestroy()
-    {
-        if (_root != null)
-        {
-            _root.Clear();
-        }
-    }
-
     protected virtual void Initialize()
     {
         storyBoard = GetComponent<BTStoryBoard>();
