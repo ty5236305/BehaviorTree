@@ -6,8 +6,8 @@ public class FindEscapeAction : FindDestinationAction
 {
     private float _safeDistance;
 
-    public FindEscapeAction(string targetName, string destinationDataName, float safeDistance, BTCondition precondition = null)
-        : base(targetName, destinationDataName, precondition)
+    public FindEscapeAction(string targetName, string destinationDataName, float safeDistance)
+        : base(targetName, destinationDataName)
     {
         _safeDistance = safeDistance;
     }

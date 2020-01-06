@@ -11,7 +11,7 @@ public abstract class FindDestinationAction : BTAction
 
     protected Transform _trans;
 
-    protected FindDestinationAction(string targetName, string destinationDataName, BTCondition precondition = null)
+    protected FindDestinationAction(string targetName, string destinationDataName)
     {
         _targetName = targetName;
         _destinationDataName = destinationDataName;

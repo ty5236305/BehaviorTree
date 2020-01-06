@@ -6,7 +6,7 @@ public class FindTargetAction : FindDestinationAction
 {
     private float _minDistance;
 
-    public FindTargetAction(string targetName, string destinationDataName, float minDistance, BTCondition precondition = null) : base(targetName, destinationDataName, precondition)
+    public FindTargetAction(string targetName, string destinationDataName, float minDistance) : base(targetName, destinationDataName)
     {
         _minDistance = minDistance;
     }
