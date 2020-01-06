@@ -4,7 +4,7 @@ namespace BT
 
     public class BTSelector : BTComposite
     {
-        private int _activeChildIndex = -1;
+        private int _runningChildIndex = -1;
 
         public override BTResult Tick()
         {
@@ -19,21 +19,20 @@ namespace BT
                 switch (child.Tick())
                 {
                     case BTResult.Running:
-                        if (_activeChildIndex != i && _activeChildIndex != -1)
+                        if (_runningChildIndex != i && _runningChildIndex != -1)
                         {
-                            _children[_activeChildIndex].Clear();
+                            _children[_runningChildIndex].Clear();
                         }
-                        _activeChildIndex = i;
+                        _runningChildIndex = i;
                         return BTResult.Running;
 
-
                     case BTResult.Success:
-                        if (_activeChildIndex != i && _activeChildIndex != -1)
+                        if (_runningChildIndex != i && _runningChildIndex != -1)
                         {
-                            _children[_activeChildIndex].Clear();
+                            _children[_runningChildIndex].Clear();
                         }
                         child.Clear();
-                        _activeChildIndex = -1;
+                        _runningChildIndex = -1;
                         return BTResult.Success;
 
                     case BTResult.Failed:
@@ -42,17 +41,17 @@ namespace BT
                 }
             }
 
-            _activeChildIndex = -1;
+            _runningChildIndex = -1;
             return BTResult.Failed;
         }
 
         public override void Clear()
         {
-            if (_activeChildIndex != -1)
+            if (_runningChildIndex != -1)
             {
-                _children[_activeChildIndex].Clear();
+                _children[_runningChildIndex].Clear();
             }
-            _activeChildIndex = -1;
+            _runningChildIndex = -1;
         }
     }
 }

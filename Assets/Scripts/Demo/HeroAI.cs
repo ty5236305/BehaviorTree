@@ -53,8 +53,6 @@ public class HeroAI : BTTree
         go.AddChild(run);
 
         //定义attack动作
-        CheckInSightCondition checkGoblinInFightDistance = new CheckInSightCondition(fightDistance, OBJECT_NAME_GOBLIN);
-        //BTConditionDecorator attack = new BTConditionDecorator(new PlayAnimationAction(ANIMATION_FIGHT), checkGoblinInFightDistance);
         PlayAnimationAction attack = new PlayAnimationAction(ANIMATION_FIGHT);
 
         //将go动作和attack动作添加到fight结点
