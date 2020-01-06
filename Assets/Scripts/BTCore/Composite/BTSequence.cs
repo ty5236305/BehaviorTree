@@ -15,26 +15,30 @@ namespace BT
                 return BTResult.Success;
             }
 
-            if (_activeChildIndex == -1)
+            for (int i = 0; i < _children.Count; i++)
             {
-                _activeChildIndex = 0;
-            }
+                BTNode child = _children[i];
 
-            for (; _activeChildIndex < _children.Count; _activeChildIndex++)
-            {
-                BTNode activeChild = _children[_activeChildIndex];
-
-                switch (activeChild.Tick())
+                switch (child.Tick())
                 {
                     case BTResult.Running:
+                        if (_activeChildIndex != i && _activeChildIndex != -1)
+                        {
+                            _children[_activeChildIndex].Clear();
+                        }
+                        _activeChildIndex = i;
                         return BTResult.Running;
 
                     case BTResult.Success:
-                        activeChild.Clear();
+                        child.Clear();
                         continue;
 
                     case BTResult.Failed:
-                        activeChild.Clear();
+                        if (_activeChildIndex != i && _activeChildIndex != -1)
+                        {
+                            _children[_activeChildIndex].Clear();
+                        }
+                        child.Clear();
                         _activeChildIndex = -1;
                         return BTResult.Failed;
                 }
@@ -50,6 +54,7 @@ namespace BT
             {
                 _children[_activeChildIndex].Clear();
             }
+            _activeChildIndex = -1;
         }
     }
 

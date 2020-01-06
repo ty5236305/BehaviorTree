@@ -52,6 +52,7 @@ namespace BT
             {
                 _children[_activeChildIndex].Clear();
             }
+            _activeChildIndex = -1;
         }
     }
 }
